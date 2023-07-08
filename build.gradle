@@ -1,25 +1,42 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.13'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+    id 'org.springframework.boot' version '2.7.13'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'maven-publish'
 }
 
 group = 'ru.skvozilo'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2'
 
 java {
-	sourceCompatibility = '11'
+    sourceCompatibility = '11'
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact bootJar
+        }
+    }
+
+    repositories {
+        maven {
+            url = "http://localhost:32001/repository/draft/"
+            allowInsecureProtocol = true
+        }
+    }
 }
